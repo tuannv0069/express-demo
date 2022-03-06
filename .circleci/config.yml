@@ -14,7 +14,7 @@ jobs:
       # specify the version you desire here
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # sử dụng môi trường chạy nodejs thông quan docker
-      - image: circleci/node:12.13.0
+      - image: cimg/node:17.6.0
 
     working_directory: ~/express-demo
 
