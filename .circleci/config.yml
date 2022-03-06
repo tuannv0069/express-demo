@@ -33,3 +33,25 @@ jobs:
             - node_modules
           key: v1-dependencies-
 
+  deploy:
+    machine:
+      enabled: true
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "9a:fb:eb:dc:a0:e5:95:4e:e2:a1:6f:87:0b:a3:23:e7"
+      - run:
+          name: pull code and start api_services
+          command: ssh -oStrictHostKeyChecking=no uc2-user@13.213.10.195 -p EC2Tutorial "cd express-demo; git pull origin main; npm install; pm2 start app.js"
+
+workflows:
+  my-flow:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - main
