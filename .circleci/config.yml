@@ -8,7 +8,28 @@ orbs:
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
-workflows:
-  node-tests:
-    jobs:
-      - node/test
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # sử dụng môi trường chạy nodejs thông quan docker
+      - image: circleci/node:12.13.0
+
+    working_directory: ~/todo-typescript
+
+    steps:
+      - checkout
+      # khôi phục lại folder chứa package (v1-dependencies) dựa vào file (package-lock.json)
+      - restore_cache:
+          keys:
+          - v1-dependencies-
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run: npm install
+      # lưu lại cache folder theo key nếu như (package-lock.json) có sự thay đổi
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-
+
