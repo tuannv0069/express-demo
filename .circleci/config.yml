@@ -12,7 +12,6 @@ jobs:
           command: ssh -o StrictHostKeyChecking=no $AWS_SERVER_USER@$AWS_SERVER_HOSTNAME 'cd sumika-stub && git pull origin main && npm install && pm2 reload app.js'
 
 workflows:
-  version: 2
   my-flow:
     jobs:
       - deploy:
