@@ -1,11 +1,9 @@
 # This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
 version: 2.1
-
 # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
 # See: https://circleci.com/docs/2.0/orb-intro/
 orbs:
   node: circleci/node@4.7
-
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 jobs:
@@ -43,7 +41,6 @@ jobs:
       - run:
           name: pull code and start api_services
           command: ssh -oStrictHostKeyChecking=no ec2-user@ec2-13-213-10-195.ap-southeast-1.compute.amazonaws.com "cd express-demo; git pull origin main; npm install; pm2 reload express-demo"
-
 workflows:
   my-flow:
     jobs:
