@@ -1,36 +1,7 @@
-# This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
 version: 2.1
-# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
-# See: https://circleci.com/docs/2.0/orb-intro/
 orbs:
   node: circleci/node@4.7
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # sử dụng môi trường chạy nodejs thông quan docker
-      - image: cimg/node:17.6.0
-
-    working_directory: ~/express-demo
-
-    steps:
-      - checkout
-      # khôi phục lại folder chứa package (v1-dependencies) dựa vào file (package-lock.json)
-      - restore_cache:
-          keys:
-          - v1-dependencies-
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-      - run: npm install
-      # lưu lại cache folder theo key nếu như (package-lock.json) có sự thay đổi
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-
-
   deploy:
     machine:
       enabled: true
@@ -44,10 +15,7 @@ jobs:
 workflows:
   my-flow:
     jobs:
-      - build
       - deploy:
-          requires:
-            - build
           filters:
             branches:
               only:
